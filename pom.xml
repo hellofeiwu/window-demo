@@ -30,6 +30,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- aop 切面注解依赖包 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
 		<!-- swagger2 配置 -->
 		<!-- 核心内容 -->
 		<dependency>
