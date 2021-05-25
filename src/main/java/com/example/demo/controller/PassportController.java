@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.PassportService;
 import com.example.demo.utils.IMOOCJSONResult;
 import com.example.demo.utils.Queue;
 import com.example.demo.utils.RedisUtils;
@@ -17,9 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class PassportController {
     @Autowired
     private RedisUtils redisUtils;
-
-    @Autowired
-    private PassportService passportService;
 
     @PostMapping(value = "/login")
     public IMOOCJSONResult login() {
