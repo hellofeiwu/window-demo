@@ -10,6 +10,10 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>demo</artifactId>
+
+	<!-- 把项目打包成war包一共4步：第1步，改packaging -->
+	<packaging>war</packaging>
+
 	<version>0.0.1-SNAPSHOT</version>
 	<name>window-demo</name>
 	<description>Demo project for Spring Boot</description>
@@ -22,6 +26,15 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+
+			<!-- 把项目打包成war包一共4步：第2步，剔除内置的tomcat -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+
 		</dependency>
 
 		<dependency>
@@ -60,6 +73,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+		<!-- 把项目打包成war包一共4步：第3步，内置的tomcat被剔除后，要把servlet功能单独加回来 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 	</dependencies>
 
