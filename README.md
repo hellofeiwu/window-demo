@@ -1,0 +1,2 @@
+每个动作的key的前缀为action
+ex: action1
