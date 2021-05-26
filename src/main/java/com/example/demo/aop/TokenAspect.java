@@ -17,7 +17,7 @@ public class TokenAspect {
     @Autowired
     private RedisUtils redisUtils;
 
-    @Around("execution(* com.example.demo.controller.DataController.*(..))")
+    @Around("execution(* com.example.demo.controller.DataController.setData(..))")
     public Object checkLogin(ProceedingJoinPoint pjp) throws Throwable {
         String token = RequestContextHolder.currentRequestAttributes().getSessionId();
         // 1. 看缓存中有没有这个token，如果没有的话，删除队列中这个token，返回请登录
