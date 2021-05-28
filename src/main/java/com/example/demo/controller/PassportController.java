@@ -25,7 +25,7 @@ public class PassportController {
         if (redisUtils.exists(token)) {
             return IMOOCJSONResult.errorMsg("请勿重复登录");
         }
-        redisUtils.set(token,"",60L, TimeUnit.SECONDS);
+        redisUtils.set(token,"",30L, TimeUnit.SECONDS);
 //        3. 把token加入队列
         Queue.userQueue.add(token);
 //        4. 返回tokenBO给前端
