@@ -22,15 +22,17 @@ public class PassportController {
 //        1. 生成token
         String token = RequestContextHolder.currentRequestAttributes().getSessionId();
 //        2. 把token存入缓存，设置30秒过期
-        if (redisUtils.exists(token)) {
-            return IMOOCJSONResult.errorMsg("请勿重复登录");
+        int index = Queue.userQueue.indexOf(token);
+        if (index != -1) {
+            return IMOOCJSONResult.build(501,"请勿重复登录", ++index);
         }
         redisUtils.set(token,"",30L, TimeUnit.SECONDS);
 //        3. 把token加入队列
         Queue.userQueue.add(token);
-//        4. 返回tokenBO给前端
+//        4. 返回再队列中的位置给前端
+        index = Queue.userQueue.indexOf(token);
 
-        return IMOOCJSONResult.ok(token);
+        return IMOOCJSONResult.ok(++index);
     }
 
     @GetMapping(value = "/logout")

@@ -39,7 +39,8 @@ public class TokenAspect {
             if (!redisUtils.exists(token)) { // 这里的校验 就意味着第一位只能保留30秒
                 Queue.userQueue.remove(token);
             }
-            return IMOOCJSONResult.errorMsg("你现在排在第 " + index + " 位");
+            index ++;
+            return IMOOCJSONResult.build(502,"你现在排在第 " + index + " 位", index);
         }
 
         return pjp.proceed();
