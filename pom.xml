@@ -27,11 +27,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 
-			<!-- 把项目打包成war包一共4步：第2步，剔除内置的tomcat -->
 			<exclusions>
+				<!-- 把项目打包成war包一共4步：第2步，剔除内置的tomcat -->
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+
+				<!-- 让log4j生效，要先剔除自带的log功能 -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
 
@@ -73,6 +79,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+		<!--引入日志依赖 抽象层 与 实现层-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
 		</dependency>
 
 		<!-- 把项目打包成war包一共4步：第3步，内置的tomcat被剔除后，要把servlet功能单独加回来 -->
