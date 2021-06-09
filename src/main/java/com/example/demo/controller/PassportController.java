@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.pojo.vo.LoginVO;
 import com.example.demo.utils.IMOOCJSONResult;
 import com.example.demo.utils.Queue;
 import com.example.demo.utils.RedisUtils;
@@ -32,7 +33,11 @@ public class PassportController {
 //        4. 返回再队列中的位置给前端
         index = Queue.userQueue.indexOf(token);
 
-        return IMOOCJSONResult.ok(++index);
+        LoginVO loginVO = new LoginVO();
+        loginVO.setIndex(++index);
+        loginVO.setToken(token);
+
+        return IMOOCJSONResult.ok(loginVO);
     }
 
     @GetMapping(value = "/logout")
