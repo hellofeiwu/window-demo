@@ -14,23 +14,25 @@ import org.springframework.web.context.request.RequestContextHolder;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-public class PassportController {
+public class PassportController extends BaseController {
     @Autowired
     private RedisUtils redisUtils;
 
     @PostMapping(value = "/login")
     public IMOOCJSONResult login() {
-//        1. 生成token
+        // 1. 清理队列
+        cleanQueue();
+//        2. 生成token
         String token = RequestContextHolder.currentRequestAttributes().getSessionId();
-//        2. 把token存入缓存，设置30秒过期
+//        3. 把token存入缓存，设置30秒过期
         int index = Queue.userQueue.indexOf(token);
         if (index != -1) {
             return IMOOCJSONResult.build(501,"请勿重复登录", ++index);
         }
         redisUtils.set(token,"",30L, TimeUnit.SECONDS);
-//        3. 把token加入队列
+//        4. 把token加入队列
         Queue.userQueue.add(token);
-//        4. 返回再队列中的位置给前端
+//        5. 返回再队列中的位置给前端
         index = Queue.userQueue.indexOf(token);
 
         LoginVO loginVO = new LoginVO();

@@ -1,5 +1,6 @@
 package com.example.demo.aop;
 
+import com.example.demo.controller.BaseController;
 import com.example.demo.utils.IMOOCJSONResult;
 import com.example.demo.utils.Queue;
 import com.example.demo.utils.RedisUtils;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 @Aspect
 @Component
-public class TokenAspect {
+public class TokenAspect extends BaseController {
 
     @Autowired
     private RedisUtils redisUtils;
@@ -35,10 +36,7 @@ public class TokenAspect {
             redisUtils.set(token,"",30L, TimeUnit.SECONDS);
         }else {
             // 3. 不是的话，清理当前队列
-            token = Queue.userQueue.get(0);
-            if (!redisUtils.exists(token)) { // 这里的校验 就意味着第一位只能保留30秒
-                Queue.userQueue.remove(token);
-            }
+            cleanQueue();
             index ++;
             return IMOOCJSONResult.build(502,"你现在排在第 " + index + " 位", index);
         }

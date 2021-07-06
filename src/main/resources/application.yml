@@ -4,7 +4,7 @@ server:
     uri-encoding: UTF-8
   servlet:
     session:
-      timeout: 3
+      timeout: 35
 
 spring:
   http:
