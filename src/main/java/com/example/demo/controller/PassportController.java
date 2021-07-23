@@ -5,6 +5,7 @@ import com.example.demo.utils.IMOOCJSONResult;
 import com.example.demo.utils.Queue;
 import com.example.demo.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,9 @@ public class PassportController extends BaseController {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Value("${token-expire-time}")
+    private String tokenExpireTime;
+
     @PostMapping(value = "/login")
     public IMOOCJSONResult login() {
         // 1. 清理队列
@@ -29,7 +33,7 @@ public class PassportController extends BaseController {
         if (index != -1) {
             return IMOOCJSONResult.build(501,"请勿重复登录", ++index);
         }
-        redisUtils.set(token,"",30L, TimeUnit.SECONDS);
+        redisUtils.set(token,"",Long.valueOf(tokenExpireTime), TimeUnit.SECONDS);
 //        4. 把token加入队列
         Queue.userQueue.add(token);
 //        5. 返回再队列中的位置给前端

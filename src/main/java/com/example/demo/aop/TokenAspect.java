@@ -8,6 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -19,6 +20,9 @@ public class TokenAspect extends BaseController {
 
     @Autowired
     private RedisUtils redisUtils;
+
+    @Value("${token-expire-time}")
+    private String tokenExpireTime;
 
     @Around("execution(* com.example.demo.controller.DataController.setData(..))")
     public Object checkLogin(ProceedingJoinPoint pjp) throws Throwable {
@@ -33,7 +37,7 @@ public class TokenAspect extends BaseController {
         // 2. 比对是不是队列中的第一位，是的话就续期
         Integer index = Queue.userQueue.indexOf(token);
         if (index == 0) {
-            redisUtils.set(token,"",30L, TimeUnit.SECONDS);
+            redisUtils.set(token,"",Long.valueOf(tokenExpireTime), TimeUnit.SECONDS);
         }else {
             // 3. 不是的话，清理当前队列
             cleanQueue();
