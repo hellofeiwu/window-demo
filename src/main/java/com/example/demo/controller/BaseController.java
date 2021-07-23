@@ -8,6 +8,8 @@ public class BaseController {
     @Autowired
     private RedisUtils redisUtils;
 
+    public static final long DATA_EXPIRE_TIME = 6l;
+
     public void cleanQueue() {
         if (!Queue.userQueue.isEmpty()) {
             String token = Queue.userQueue.get(0);

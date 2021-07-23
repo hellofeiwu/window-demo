@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-public class DataController {
+public class DataController extends BaseController {
     public static final Logger log = LoggerFactory.getLogger(DataController.class);
 
     @Autowired
@@ -21,7 +21,7 @@ public class DataController {
 
     @PostMapping(value = "/setData")
     public IMOOCJSONResult setData(@RequestParam String key, @RequestParam String value) {
-        redisUtils.set(key,value,60L, TimeUnit.SECONDS);
+        redisUtils.set(key,value,DATA_EXPIRE_TIME, TimeUnit.SECONDS);
         log.info("****** setData api is called, key is " + key + ", value is " + value + " ******");
         return IMOOCJSONResult.ok();
     }
